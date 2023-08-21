@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nomad_flutter_twitter/constants/sizes.dart';
+import 'package:nomad_flutter_twitter/features/authentication/signup_screen.dart';
 
 class AuthButton extends StatelessWidget {
   final String text;
@@ -9,15 +10,20 @@ class AuthButton extends StatelessWidget {
     required this.text,
   });
 
-  ///social login 시작, google,apple,kakao
-  void _socialLogin() {
-    print("ads");
+//dart는 private,protected,publid 이라는 개념이 없다.
+//dart에서 method나 property를 private로 하는 유일한 방법은 _ 다
+  void _onMoveSignUpScreen(BuildContext context) {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const SignupScreen(),
+        ));
   }
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => _socialLogin(),
+      onTap: () => _onMoveSignUpScreen(context),
       child: Container(
         // vertical : 수직(세로)
         padding: const EdgeInsets.symmetric(
