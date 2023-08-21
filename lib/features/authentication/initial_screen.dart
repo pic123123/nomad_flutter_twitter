@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nomad_flutter_twitter/common/widgets/auth_button.dart';
 import 'package:nomad_flutter_twitter/common/widgets/social_button.dart';
 import 'package:nomad_flutter_twitter/constants/gaps.dart';
 import 'package:nomad_flutter_twitter/constants/sizes.dart';
@@ -70,6 +71,16 @@ class _InitialScreenState extends State<InitialScreen> {
                     ),
                   ],
                 ),
+                Gaps.v10,
+                const AuthButton(),
+                Gaps.v20,
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: const [
+                    Text("By Signing up, yor agree to our Terms,"),
+                    Text("Privacy Policy, and Cookie Use."),
+                  ],
+                )
               ],
             ),
           ),

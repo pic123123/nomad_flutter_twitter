@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:nomad_flutter_twitter/constants/sizes.dart';
 
-class SocialButton extends StatelessWidget {
-  const SocialButton({super.key});
+class AuthButton extends StatelessWidget {
+  const AuthButton({super.key});
 
   ///social login 시작, google,apple,kakao
   void _socialLogin() {
@@ -25,6 +25,7 @@ class SocialButton extends StatelessWidget {
               Sizes.size12,
             ),
           ),
+          color: Colors.black,
           border: Border.all(
             color: Colors.grey.shade300,
             width: Sizes.size1,
@@ -42,6 +43,7 @@ class SocialButton extends StatelessWidget {
             Text(
               "asd",
               style: TextStyle(
+                color: Colors.white,
                 fontSize: Sizes.size14,
                 fontWeight: FontWeight.w600,
               ),
