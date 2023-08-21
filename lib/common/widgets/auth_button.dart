@@ -2,7 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:nomad_flutter_twitter/constants/sizes.dart';
 
 class AuthButton extends StatelessWidget {
-  const AuthButton({super.key});
+  final String text;
+
+  const AuthButton({
+    super.key,
+    required this.text,
+  });
 
   ///social login 시작, google,apple,kakao
   void _socialLogin() {
@@ -36,16 +41,16 @@ class AuthButton extends StatelessWidget {
           // Row -> 가로로 배치
           // Stack -> 위젯들을 위에다가 쌓을 수 있게함 (팬케이크 or 카드)
           alignment: Alignment.center,
-          children: const [
+          children: [
             // Align -> Stack에 있는 Widget 하나의 정렬만 바꿀 수 있게 해줌
-            Align(alignment: Alignment.centerLeft),
+            const Align(alignment: Alignment.centerLeft),
             //Expanded : Row나 Column 내에서 사용할 수 있는 만큼 공간을 전부 차지하는 위젯
             Text(
-              "asd",
-              style: TextStyle(
+              text,
+              style: const TextStyle(
                 color: Colors.white,
-                fontSize: Sizes.size14,
-                fontWeight: FontWeight.w600,
+                fontSize: Sizes.size16,
+                fontWeight: FontWeight.bold,
               ),
               textAlign: TextAlign.center,
             ),

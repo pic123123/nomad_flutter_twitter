@@ -14,6 +14,10 @@ class InitialScreen extends StatefulWidget {
 class _InitialScreenState extends State<InitialScreen> {
   final logoImage = 'assets/images/twitter_logo.png';
 
+  void _onLoginTab(context) {
+    print("asd");
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -51,11 +55,17 @@ class _InitialScreenState extends State<InitialScreen> {
                   ),
                 ),
                 Gaps.v80,
-                const SocialButton(),
+                SocialButton(
+                    text: "Continue with Kakao",
+                    socialButtonType: SocialButtonType.kakao),
                 Gaps.v10,
-                const SocialButton(),
+                SocialButton(
+                    text: "Continue with Google",
+                    socialButtonType: SocialButtonType.google),
                 Gaps.v10,
-                const SocialButton(),
+                SocialButton(
+                    text: "Continue with Apple",
+                    socialButtonType: SocialButtonType.apple),
                 Gaps.v10,
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -72,7 +82,9 @@ class _InitialScreenState extends State<InitialScreen> {
                   ],
                 ),
                 Gaps.v10,
-                const AuthButton(),
+                const AuthButton(
+                  text: "Create Account",
+                ),
                 Gaps.v20,
                 Column(
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -83,6 +95,32 @@ class _InitialScreenState extends State<InitialScreen> {
                 )
               ],
             ),
+          ),
+        ),
+      ),
+      bottomNavigationBar: BottomAppBar(
+        //배경 색상
+        color: Colors.grey.shade50,
+        elevation: 2,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: Sizes.size32),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Text('Have an account already?'),
+              Gaps.h5,
+              GestureDetector(
+                onTap: () => _onLoginTab(context),
+                child: Text(
+                  'Log in',
+                  style: TextStyle(
+                    ///main.dart에서 설정한 theme을 가져올 수 있음.
+                    color: Theme.of(context).primaryColor,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
       ),
