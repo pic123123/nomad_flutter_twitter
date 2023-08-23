@@ -15,9 +15,35 @@ class _SignupScreenState extends State<SignupScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   Map<String, String> formData = {};
 
-  late bool validate1 = false;
-  late bool validate2 = false;
-  late bool validate3 = false;
+  final TextEditingController _nameController = TextEditingController(text: "");
+  final TextEditingController _emailController =
+      TextEditingController(text: "");
+  final TextEditingController _birthController =
+      TextEditingController(text: "");
+
+  String _name = "";
+  String _email = "";
+  String _birth = "";
+
+  @override
+  void initState() {
+    super.initState();
+    _nameController.addListener(() {
+      setState(() {
+        _name = _nameController.text;
+      });
+    });
+    _emailController.addListener(() {
+      setState(() {
+        _email = _emailController.text;
+      });
+    });
+    _birthController.addListener(() {
+      setState(() {
+        _birth = _birthController.text;
+      });
+    });
+  }
 
   void _onMoveTestScreen(context) {
     if (_formKey.currentState != null) {
@@ -36,7 +62,12 @@ class _SignupScreenState extends State<SignupScreen> {
   ///마지막 실행, 모든게 다끝날때
   @override
   Future<void> dispose() async {
-    super.dispose();
+    void dispose() {
+      _nameController.dispose();
+      _emailController.dispose();
+      _birthController.dispose();
+      super.dispose();
+    }
   }
 
   @override
@@ -86,6 +117,7 @@ class _SignupScreenState extends State<SignupScreen> {
                         children: [
                           Gaps.v28,
                           TextFormField(
+                            controller: _nameController,
                             // autovalidateMode:
                             //     AutovalidateMode.onUserInteraction,
                             decoration: InputDecoration(
@@ -104,12 +136,8 @@ class _SignupScreenState extends State<SignupScreen> {
                             validator: (value) {
                               if (value != null && value.isEmpty) {
                                 return "Please enter your name.";
-                              } else {
-                                setState(() {
-                                  validate1 = true;
-                                });
-                                return null;
                               }
+                              return null;
                             },
                             onSaved: (newValue) {
                               if (newValue != null) {
@@ -119,6 +147,7 @@ class _SignupScreenState extends State<SignupScreen> {
                           ),
                           Gaps.v16,
                           TextFormField(
+                            controller: _emailController,
                             decoration: InputDecoration(
                               hintText: 'Email address',
                               enabledBorder: UnderlineInputBorder(
@@ -135,12 +164,8 @@ class _SignupScreenState extends State<SignupScreen> {
                             validator: (value) {
                               if (value != null && value.isEmpty) {
                                 return "Please enter your email address.";
-                              } else {
-                                setState(() {
-                                  validate2 = true;
-                                });
-                                return null;
                               }
+                              return null;
                             },
                             onSaved: (newValue) {
                               if (newValue != null) {
@@ -150,6 +175,7 @@ class _SignupScreenState extends State<SignupScreen> {
                           ),
                           Gaps.v16,
                           TextFormField(
+                            controller: _birthController,
                             decoration: InputDecoration(
                               hintText: 'Date of birth',
                               enabledBorder: UnderlineInputBorder(
@@ -166,12 +192,8 @@ class _SignupScreenState extends State<SignupScreen> {
                             validator: (value) {
                               if (value != null && value.isEmpty) {
                                 return "Please enter your Date of birth.";
-                              } else {
-                                setState(() {
-                                  validate3 = true;
-                                });
-                                return null;
                               }
+                              return null;
                             },
                             onSaved: (newValue) {
                               if (newValue != null) {
@@ -183,7 +205,9 @@ class _SignupScreenState extends State<SignupScreen> {
                           GestureDetector(
                             onTap: () => _onMoveTestScreen(context),
                             child: FormButton(
-                              disabled: !(validate1 && validate2 && validate3),
+                              disabled: !(_name.isNotEmpty &&
+                                  _email.isNotEmpty &&
+                                  _birth.isNotEmpty),
                             ),
                           )
                         ],
