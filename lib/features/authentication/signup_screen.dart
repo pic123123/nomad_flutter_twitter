@@ -1,7 +1,10 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:nomad_flutter_twitter/common/widgets/form_button.dart';
 import 'package:nomad_flutter_twitter/constants/gaps.dart';
 import 'package:nomad_flutter_twitter/constants/sizes.dart';
+
+import 'customize_experience_screen.dart';
 
 class SignupScreen extends StatefulWidget {
   const SignupScreen({Key? key}) : super(key: key);
@@ -25,9 +28,26 @@ class _SignupScreenState extends State<SignupScreen> {
   String _email = "";
   String _birth = "";
 
+  late final FocusNode _birthFocusNode;
+  late bool _isBirthFocused = false;
+
+  DateTime now = DateTime.now(); //2023-02-13 22:49:54.767060
+  DateTime initDate = DateTime.now().subtract(const Duration(days: 4380));
+
   @override
   void initState() {
     super.initState();
+    _birthFocusNode = FocusNode();
+    _birthFocusNode.addListener(
+      () {
+        if (_birthFocusNode.hasFocus != _isBirthFocused) {
+          setState(() {
+            _isBirthFocused = !_isBirthFocused;
+          });
+        }
+      },
+    );
+    _setTextFieldDateBirthday(initDate);
     _nameController.addListener(() {
       setState(() {
         _name = _nameController.text;
@@ -45,16 +65,24 @@ class _SignupScreenState extends State<SignupScreen> {
     });
   }
 
+  ///생일 선택시 string으로 controller 입력
+  void _setTextFieldDateBirthday(DateTime date) {
+    final textDate = date.toString().split(" ").first;
+    //controller에 값을 설정하는법
+    _birthController.value = TextEditingValue(text: textDate);
+  }
+
+//스크린 이동
   void _onMoveTestScreen(context) {
     if (_formKey.currentState != null) {
       if (_formKey.currentState!.validate()) {
         _formKey.currentState!.save();
 
-        // Navigator.of(context).push(
-        //   MaterialPageRoute(
-        //     builder: (context) => const CustomizeExperienceScreen(),
-        //   ),
-        // );
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) => const CustomizeExperienceScreen(),
+          ),
+        );
       }
     }
   }
@@ -62,12 +90,11 @@ class _SignupScreenState extends State<SignupScreen> {
   ///마지막 실행, 모든게 다끝날때
   @override
   Future<void> dispose() async {
-    void dispose() {
-      _nameController.dispose();
-      _emailController.dispose();
-      _birthController.dispose();
-      super.dispose();
-    }
+    _birthFocusNode.dispose();
+    _nameController.dispose();
+    _emailController.dispose();
+    _birthController.dispose();
+    super.dispose();
   }
 
   @override
@@ -94,129 +121,163 @@ class _SignupScreenState extends State<SignupScreen> {
               ],
             ),
             Expanded(
-                child: Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: Sizes.size40,
-                vertical: Sizes.size20,
-              ),
-              child: Center(
-                child: Column(
-                  children: [
-                    Gaps.v40,
-                    const Text(
-                      "Create your account",
-                      style: TextStyle(
-                        fontSize: Sizes.size24,
-                        fontWeight: FontWeight.w800,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: Sizes.size40,
+                  vertical: Sizes.size20,
+                ),
+                child: Center(
+                  child: Column(
+                    children: [
+                      Gaps.v40,
+                      const Text(
+                        "Create your account",
+                        style: TextStyle(
+                          fontSize: Sizes.size24,
+                          fontWeight: FontWeight.w800,
+                        ),
                       ),
-                    ),
-                    Gaps.h16,
-                    Form(
-                      key: _formKey,
-                      child: Column(
-                        children: [
-                          Gaps.v28,
-                          TextFormField(
-                            controller: _nameController,
-                            // autovalidateMode:
-                            //     AutovalidateMode.onUserInteraction,
-                            decoration: InputDecoration(
-                              hintText: 'Name',
-                              enabledBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: Colors.grey.shade400,
+                      Gaps.h16,
+                      Form(
+                        key: _formKey,
+                        child: Column(
+                          children: [
+                            Gaps.v28,
+                            TextFormField(
+                              controller: _nameController,
+                              // autovalidateMode:
+                              //     AutovalidateMode.onUserInteraction,
+                              decoration: InputDecoration(
+                                suffixIcon: _name.isNotEmpty
+                                    ? const Icon(
+                                        Icons.check_circle,
+                                        color: Colors.green,
+                                      )
+                                    : null,
+                                hintText: 'Name',
+                                enabledBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: Colors.grey.shade400,
+                                  ),
+                                ),
+                                focusedBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: Colors.grey.shade400,
+                                  ),
                                 ),
                               ),
-                              focusedBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: Colors.grey.shade400,
+                              validator: (value) {
+                                if (value != null && value.isEmpty) {
+                                  return "Please enter your name.";
+                                }
+                                return null;
+                              },
+                              onSaved: (newValue) {
+                                if (newValue != null) {
+                                  formData['name'] = newValue;
+                                }
+                              },
+                            ),
+                            Gaps.v16,
+                            TextFormField(
+                              controller: _emailController,
+                              decoration: InputDecoration(
+                                suffixIcon: _email.isNotEmpty
+                                    ? const Icon(
+                                        Icons.check_circle,
+                                        color: Colors.green,
+                                      )
+                                    : null,
+                                hintText: 'Email address',
+                                enabledBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: Colors.grey.shade400,
+                                  ),
                                 ),
+                                focusedBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: Colors.grey.shade400,
+                                  ),
+                                ),
+                              ),
+                              validator: (value) {
+                                if (value != null && value.isEmpty) {
+                                  return "Please enter your email address.";
+                                }
+                                return null;
+                              },
+                              onSaved: (newValue) {
+                                if (newValue != null) {
+                                  formData['email'] = newValue;
+                                }
+                              },
+                            ),
+                            Gaps.v16,
+                            TextFormField(
+                              focusNode: _birthFocusNode,
+                              controller: _birthController,
+                              decoration: InputDecoration(
+                                suffixIcon: _birth.isNotEmpty
+                                    ? const Icon(
+                                        Icons.check_circle,
+                                        color: Colors.green,
+                                      )
+                                    : null,
+                                hintText: 'Date of birth',
+                                enabledBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: Colors.grey.shade400,
+                                  ),
+                                ),
+                                focusedBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: Colors.grey.shade400,
+                                  ),
+                                ),
+                              ),
+                              validator: (value) {
+                                if (value != null && value.isEmpty) {
+                                  return "Please enter your Date of birth.";
+                                }
+                                return null;
+                              },
+                              onSaved: (newValue) {
+                                if (newValue != null) {
+                                  formData['birth'] = newValue;
+                                }
+                              },
+                            ),
+                            Gaps.v20,
+                            if (_isBirthFocused)
+                              const Text(
+                                  "This will bot be shown publicly, Confirm your own age, even if this account is for a business, a pet, or something else."),
+                            Gaps.v20,
+                            SizedBox(
+                              height: 120,
+                              child: CupertinoDatePicker(
+                                maximumDate: now,
+                                initialDateTime: initDate,
+                                onDateTimeChanged: _setTextFieldDateBirthday,
+                                mode: CupertinoDatePickerMode.date,
                               ),
                             ),
-                            validator: (value) {
-                              if (value != null && value.isEmpty) {
-                                return "Please enter your name.";
-                              }
-                              return null;
-                            },
-                            onSaved: (newValue) {
-                              if (newValue != null) {
-                                formData['name'] = newValue;
-                              }
-                            },
-                          ),
-                          Gaps.v16,
-                          TextFormField(
-                            controller: _emailController,
-                            decoration: InputDecoration(
-                              hintText: 'Email address',
-                              enabledBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: Colors.grey.shade400,
-                                ),
+                            Gaps.v28,
+                            GestureDetector(
+                              onTap: () => _onMoveTestScreen(context),
+                              child: FormButton(
+                                disabled: !(_name.isNotEmpty &&
+                                    _email.isNotEmpty &&
+                                    _birth.isNotEmpty),
                               ),
-                              focusedBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: Colors.grey.shade400,
-                                ),
-                              ),
-                            ),
-                            validator: (value) {
-                              if (value != null && value.isEmpty) {
-                                return "Please enter your email address.";
-                              }
-                              return null;
-                            },
-                            onSaved: (newValue) {
-                              if (newValue != null) {
-                                formData['email'] = newValue;
-                              }
-                            },
-                          ),
-                          Gaps.v16,
-                          TextFormField(
-                            controller: _birthController,
-                            decoration: InputDecoration(
-                              hintText: 'Date of birth',
-                              enabledBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: Colors.grey.shade400,
-                                ),
-                              ),
-                              focusedBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: Colors.grey.shade400,
-                                ),
-                              ),
-                            ),
-                            validator: (value) {
-                              if (value != null && value.isEmpty) {
-                                return "Please enter your Date of birth.";
-                              }
-                              return null;
-                            },
-                            onSaved: (newValue) {
-                              if (newValue != null) {
-                                formData['birth'] = newValue;
-                              }
-                            },
-                          ),
-                          Gaps.v28,
-                          GestureDetector(
-                            onTap: () => _onMoveTestScreen(context),
-                            child: FormButton(
-                              disabled: !(_name.isNotEmpty &&
-                                  _email.isNotEmpty &&
-                                  _birth.isNotEmpty),
-                            ),
-                          )
-                        ],
+                            )
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
-            )),
+            ),
           ],
         ),
       ),
