@@ -1,14 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:nomad_flutter_twitter/constants/sizes.dart';
 
-class FormButton extends StatelessWidget {
+class FormButton extends StatefulWidget {
+  final String? text;
   const FormButton({
     super.key,
+    this.text,
     required this.disabled,
   });
 
   final bool disabled;
 
+  @override
+  State<FormButton> createState() => _FormButtonState();
+}
+
+class _FormButtonState extends State<FormButton> {
   @override
   Widget build(BuildContext context) {
     return FractionallySizedBox(
@@ -19,18 +26,19 @@ class FormButton extends StatelessWidget {
         ),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(Sizes.size5),
-          color:
-              disabled ? Colors.grey.shade300 : Theme.of(context).primaryColor,
+          color: widget.disabled
+              ? Colors.grey.shade300
+              : Theme.of(context).primaryColor,
         ),
         duration: const Duration(milliseconds: 500),
         child: AnimatedDefaultTextStyle(
           duration: const Duration(milliseconds: 500),
           style: TextStyle(
-            color: disabled ? Colors.grey.shade400 : Colors.white,
+            color: widget.disabled ? Colors.grey.shade400 : Colors.white,
             fontWeight: FontWeight.w600,
           ),
-          child: const Text(
-            'Next',
+          child: Text(
+            widget.text ?? 'Next',
             textAlign: TextAlign.center,
           ),
         ),

@@ -3,11 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:nomad_flutter_twitter/common/widgets/form_button.dart';
 import 'package:nomad_flutter_twitter/constants/gaps.dart';
 import 'package:nomad_flutter_twitter/constants/sizes.dart';
-
-import 'customize_experience_screen.dart';
+import 'package:nomad_flutter_twitter/features/authentication/customize_experience_screen.dart';
 
 class SignupScreen extends StatefulWidget {
-  const SignupScreen({Key? key}) : super(key: key);
+  final bool? switchButton;
+  const SignupScreen({
+    this.switchButton,
+    Key? key,
+  }) : super(key: key);
 
   @override
   State<SignupScreen> createState() => _SignupScreenState();
@@ -34,9 +37,12 @@ class _SignupScreenState extends State<SignupScreen> {
   DateTime now = DateTime.now(); //2023-02-13 22:49:54.767060
   DateTime initDate = DateTime.now().subtract(const Duration(days: 4380));
 
+  bool? localSwitchButton;
+
   @override
   void initState() {
     super.initState();
+    localSwitchButton = widget.switchButton ?? false;
     _birthFocusNode = FocusNode();
     _birthFocusNode.addListener(
       () {
@@ -73,16 +79,22 @@ class _SignupScreenState extends State<SignupScreen> {
   }
 
 //스크린 이동
-  void _onMoveTestScreen(context) {
+  void _onMoveTestScreen(context) async {
     if (_formKey.currentState != null) {
       if (_formKey.currentState!.validate()) {
         _formKey.currentState!.save();
 
-        Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (context) => const CustomizeExperienceScreen(),
-          ),
-        );
+        if (!localSwitchButton!) {
+          bool? result = await Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => const CustomizeExperienceScreen()),
+          );
+
+          setState(() {
+            localSwitchButton = result;
+          });
+        }
       }
     }
   }
@@ -248,23 +260,31 @@ class _SignupScreenState extends State<SignupScreen> {
                               },
                             ),
                             Gaps.v20,
-                            if (_isBirthFocused)
+                            if (_isBirthFocused && localSwitchButton == false)
                               const Text(
                                   "This will bot be shown publicly, Confirm your own age, even if this account is for a business, a pet, or something else."),
                             Gaps.v20,
-                            SizedBox(
-                              height: 120,
-                              child: CupertinoDatePicker(
-                                maximumDate: now,
-                                initialDateTime: initDate,
-                                onDateTimeChanged: _setTextFieldDateBirthday,
-                                mode: CupertinoDatePickerMode.date,
+                            if (localSwitchButton ?? false)
+                              const Text(
+                                "By signing up, you agree to our Terms, Privacy Policy, and Cookie Use. Twitter may use your contact information, including your email address and phone number for purposes outlined in our Privacy Policy. Learn more, Others will be able to find you by email or phone number, when provided, unless you choose otherwise here",
                               ),
-                            ),
-                            Gaps.v28,
+                            if (localSwitchButton == true ? false : true)
+                              SizedBox(
+                                height: 120,
+                                child: CupertinoDatePicker(
+                                  maximumDate: now,
+                                  initialDateTime: initDate,
+                                  onDateTimeChanged: _setTextFieldDateBirthday,
+                                  mode: CupertinoDatePickerMode.date,
+                                ),
+                              ),
+                            Gaps.v96,
                             GestureDetector(
                               onTap: () => _onMoveTestScreen(context),
                               child: FormButton(
+                                text: localSwitchButton == true
+                                    ? "SignUp"
+                                    : "Next",
                                 disabled: !(_name.isNotEmpty &&
                                     _email.isNotEmpty &&
                                     _birth.isNotEmpty),
