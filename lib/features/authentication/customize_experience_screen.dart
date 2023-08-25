@@ -85,7 +85,7 @@ class _CustomizeExperienceScreenState extends State<CustomizeExperienceScreen> {
                     });
                   },
                 ),
-                Gaps.v96,
+                const Spacer(), // 버튼
                 const Text(
                   "By signing up, you agree to our Terms, Privacy Policy, and Cookie Use. Twitter may use your contact information, including your email address and phone number for purposes outlined in our Privacy Policy. Learn more",
                   style: TextStyle(

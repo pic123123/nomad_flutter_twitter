@@ -17,16 +17,39 @@ class _ConfirmationCodeScreenState extends State<ConfirmationCodeScreen> {
 
   late bool switchButton = false;
 
+  final GlobalKey<FormBuilderState> _formKey = GlobalKey<FormBuilderState>();
+
+  final List<TextEditingController> _controllers =
+      List.generate(6, (index) => TextEditingController());
+  final List<FocusNode> _focusNodes = List.generate(6, (index) => FocusNode());
+
   void _onMoveSignupScreen(context) {
     print("111");
     //print(switchButton);
     //Navigator.of(context).pop(switchButton);
   }
 
-  final GlobalKey<FormBuilderState> _formKey = GlobalKey<FormBuilderState>();
+  /// 모든 컨트롤러(6자리 숫자)에 값이 입력되면 true 아니면 false
+  bool isInputComplete() {
+    // Check if all text controllers have non-empty text
+    return _controllers.every((controller) => controller.text.isNotEmpty);
+  }
+
+  @override
+  void dispose() {
+    for (var controller in _controllers) {
+      controller.dispose();
+    }
+    for (var focusNode in _focusNodes) {
+      focusNode.dispose();
+    }
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
+    bool isButtonDisabled = !isInputComplete();
+
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -35,6 +58,8 @@ class _ConfirmationCodeScreenState extends State<ConfirmationCodeScreen> {
             vertical: Sizes.size20,
           ),
           child: Column(
+            //Column을 쓰면 가운데 정렬이 자동임, start 옵션을 줘야 왼쪽정렬
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -88,6 +113,8 @@ class _ConfirmationCodeScreenState extends State<ConfirmationCodeScreen> {
                       (index) => SizedBox(
                         width: 40,
                         child: TextFormField(
+                          controller: _controllers[index],
+                          focusNode: _focusNodes[index],
                           maxLength: 1,
                           keyboardType: TextInputType.number,
                           inputFormatters: [
@@ -103,38 +130,62 @@ class _ConfirmationCodeScreenState extends State<ConfirmationCodeScreen> {
                             fontSize: Sizes.size20,
                             fontWeight: FontWeight.bold,
                           ),
+                          onChanged: (value) {
+                            if (value.isNotEmpty && index < 5) {
+                              _controllers[index + 1].clear();
+                              FocusScope.of(context)
+                                  .requestFocus(_focusNodes[index + 1]);
+                            }
+                            setState(() {
+                              isButtonDisabled = !isButtonDisabled;
+                            });
+                          },
                         ),
                       ),
                     ),
                   ),
                 ),
               ),
-            ],
-          ),
-        ),
-      ),
-      bottomNavigationBar: BottomAppBar(
-        elevation: 2,
-        child: Padding(
-          padding: const EdgeInsets.all(
-            Sizes.size20,
-          ),
-          child: GestureDetector(
-            onTap: () => _onMoveSignupScreen,
-            child: Container(
-              decoration: BoxDecoration(
-                borderRadius: const BorderRadius.all(
-                  Radius.circular(
-                    Sizes.size40,
+              Gaps.v20,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  !isButtonDisabled
+                      ? const Icon(
+                          Icons.check_circle,
+                          color: Colors.green,
+                        )
+                      : const SizedBox
+                          .shrink(), // Hide the icon when not needed
+                ],
+              ),
+              const Spacer(), // 버튼 하단 고정된 화면을 구현하고자 한다면 Spacer 위젯이 가장 간단하게 구현가능함
+              Text(
+                "Didn't receive email?",
+                style: TextStyle(
+                  fontSize: Sizes.size18,
+                  color: Colors.blue[400],
+                ),
+              ),
+              Gaps.v10,
+              GestureDetector(
+                onTap: () => _onMoveSignupScreen,
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: const BorderRadius.all(
+                      Radius.circular(
+                        Sizes.size40,
+                      ),
+                    ),
+                    color: Theme.of(context).primaryColor,
+                  ),
+                  child: FormButton(
+                    text: "Next",
+                    disabled: isButtonDisabled,
                   ),
                 ),
-                color: Theme.of(context).primaryColor,
               ),
-              child: const FormButton(
-                text: "Next",
-                disabled: false,
-              ),
-            ),
+            ],
           ),
         ),
       ),

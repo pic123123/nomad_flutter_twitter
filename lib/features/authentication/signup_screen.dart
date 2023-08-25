@@ -293,21 +293,19 @@ class _SignupScreenState extends State<SignupScreen> {
                                   mode: CupertinoDatePickerMode.date,
                                 ),
                               ),
-                            Gaps.v96,
-                            GestureDetector(
-                              onTap: () => _onMoveTestScreen(context),
-                              child: FormButton(
-                                text: localSwitchButton == true
-                                    ? "SignUp"
-                                    : "Next",
-                                disabled: !(_name.isNotEmpty &&
-                                    _email.isNotEmpty &&
-                                    _birth.isNotEmpty),
-                              ),
-                            )
                           ],
                         ),
                       ),
+                      const Spacer(), // 버튼
+                      GestureDetector(
+                        onTap: () => _onMoveTestScreen(context),
+                        child: FormButton(
+                          text: localSwitchButton == true ? "SignUp" : "Next",
+                          disabled: !(_name.isNotEmpty &&
+                              _email.isNotEmpty &&
+                              _birth.isNotEmpty),
+                        ),
+                      )
                     ],
                   ),
                 ),
