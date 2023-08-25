@@ -3,6 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:nomad_flutter_twitter/common/widgets/form_button.dart';
 import 'package:nomad_flutter_twitter/constants/gaps.dart';
 import 'package:nomad_flutter_twitter/constants/sizes.dart';
+import 'package:nomad_flutter_twitter/features/authentication/interests_screen.dart';
 
 class PasswordScreen extends StatefulWidget {
   const PasswordScreen({super.key});
@@ -15,9 +16,14 @@ class _PasswordScreenState extends State<PasswordScreen> {
   final logoImage = 'assets/images/twitter_logo.png';
 
   bool _obscureText = true;
-  void _onMoveSignupScreen(context) {
+  void _onMoveInterestsScreen(context) {
     if (!_isPasswordValid()) return;
-    print("111");
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const InterestsScreen(),
+      ),
+    );
   }
 
   final TextEditingController _passwordController =
@@ -173,7 +179,7 @@ class _PasswordScreenState extends State<PasswordScreen> {
               const Spacer(), // 버튼 하단 고정된 화면을 구현하고자 한다면 Spacer 위젯이 가장 간단하게 구현가능함
 
               GestureDetector(
-                onTap: () => _onMoveSignupScreen,
+                onTap: () => _onMoveInterestsScreen(context),
                 child: Container(
                   decoration: BoxDecoration(
                     borderRadius: const BorderRadius.all(
