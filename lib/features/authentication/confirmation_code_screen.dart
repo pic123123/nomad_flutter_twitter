@@ -4,6 +4,7 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:nomad_flutter_twitter/common/widgets/form_button.dart';
 import 'package:nomad_flutter_twitter/constants/gaps.dart';
 import 'package:nomad_flutter_twitter/constants/sizes.dart';
+import 'package:nomad_flutter_twitter/features/authentication/password_screen.dart';
 
 class ConfirmationCodeScreen extends StatefulWidget {
   const ConfirmationCodeScreen({super.key});
@@ -23,10 +24,14 @@ class _ConfirmationCodeScreenState extends State<ConfirmationCodeScreen> {
       List.generate(6, (index) => TextEditingController());
   final List<FocusNode> _focusNodes = List.generate(6, (index) => FocusNode());
 
-  void _onMoveSignupScreen(context) {
-    print("111");
-    //print(switchButton);
-    //Navigator.of(context).pop(switchButton);
+  void _onMovePasswordScreen(context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const PasswordScreen(),
+      ),
+    );
+    return;
   }
 
   /// 모든 컨트롤러(6자리 숫자)에 값이 입력되면 true 아니면 false
@@ -169,7 +174,7 @@ class _ConfirmationCodeScreenState extends State<ConfirmationCodeScreen> {
               ),
               Gaps.v10,
               GestureDetector(
-                onTap: () => _onMoveSignupScreen,
+                onTap: () => _onMovePasswordScreen(context),
                 child: Container(
                   decoration: BoxDecoration(
                     borderRadius: const BorderRadius.all(
