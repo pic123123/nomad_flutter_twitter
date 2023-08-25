@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:nomad_flutter_twitter/common/widgets/form_button.dart';
 import 'package:nomad_flutter_twitter/constants/gaps.dart';
 import 'package:nomad_flutter_twitter/constants/sizes.dart';
+import 'package:nomad_flutter_twitter/features/authentication/confirmation_code_screen.dart';
 import 'package:nomad_flutter_twitter/features/authentication/customize_experience_screen.dart';
 
 class SignupScreen extends StatefulWidget {
@@ -94,6 +95,19 @@ class _SignupScreenState extends State<SignupScreen> {
           setState(() {
             localSwitchButton = result;
           });
+
+          return null;
+        }
+
+        //이름,이메일,생년월일 입력, 동의 까지 클릭후 최종 SignUp(회원가입) 스크린이동
+        if (localSwitchButton == true) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const ConfirmationCodeScreen(),
+            ),
+          );
+          return null;
         }
       }
     }
@@ -226,6 +240,7 @@ class _SignupScreenState extends State<SignupScreen> {
                             ),
                             Gaps.v16,
                             TextFormField(
+                              readOnly: true,
                               focusNode: _birthFocusNode,
                               controller: _birthController,
                               decoration: InputDecoration(
