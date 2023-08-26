@@ -149,27 +149,26 @@ class _InterestsScreenState extends State<InterestsScreen> {
             ),
             Gaps.v20,
             Expanded(
-              child: SingleChildScrollView(
-                controller: scrollController,
-                child: Padding(
-                  padding: const EdgeInsets.only(
-                    left: Sizes.size24,
-                    right: Sizes.size24,
-                    bottom: Sizes.size16,
-                  ),
-                  child: Wrap(
-                    runSpacing: 15,
-                    spacing: 15,
-                    children: [
-                      for (var interest in interests)
-                        InterestsButton(
-                          interest: interest,
-                          onSelected: _handleSelection,
-                          selectionComplete: _selectionComplete,
-                        ),
-                    ],
-                  ),
+              child: GridView.builder(
+                padding: const EdgeInsets.only(
+                  left: Sizes.size24,
+                  right: Sizes.size24,
+                  bottom: Sizes.size16,
                 ),
+                itemCount: interests.length,
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2, // 한 줄에 표시할 요소 수
+                    mainAxisSpacing: 15, // 세로 간격
+                    crossAxisSpacing: 15, // 가로 간격
+                    childAspectRatio: 2 // 아이템 비율 설정
+                    ),
+                itemBuilder: (context, index) {
+                  return InterestsButton(
+                    interest: interests[index],
+                    onSelected: _handleSelection,
+                    selectionComplete: _selectionComplete,
+                  );
+                },
               ),
             ),
             Padding(

@@ -40,7 +40,7 @@ class _InterestsButtonState extends State<InterestsButton> {
         decoration: BoxDecoration(
           color: _isSelected ? Theme.of(context).primaryColor : Colors.white,
           borderRadius: BorderRadius.circular(
-            Sizes.size32,
+            Sizes.size24,
           ),
           border: Border.all(
             color: Colors.black.withOpacity(0.1),
