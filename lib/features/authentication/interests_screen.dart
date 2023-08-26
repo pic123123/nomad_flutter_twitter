@@ -56,19 +56,33 @@ class InterestsScreen extends StatefulWidget {
 class _InterestsScreenState extends State<InterestsScreen> {
   final logoImage = 'assets/images/twitter_logo.png';
 
-  final ScrollController _scrollController = ScrollController();
+  final ScrollController scrollController = ScrollController();
 
-  bool _showTitle = false;
+  bool showTitle = false;
+  int _selectedCount = 0;
+  bool _selectionComplete = false;
+
+  void _handleSelection(bool isSelected) {
+    setState(() {
+      _selectedCount += isSelected ? 1 : -1;
+      // 선택된 항목이 3개 이상이면 선택 완료로 표시
+      if (_selectedCount >= 3) {
+        _selectionComplete = true;
+      } else {
+        _selectionComplete = false;
+      }
+    });
+  }
 
   void _onScroll() {
-    if (_scrollController.offset > 100) {
-      if (_showTitle) return;
+    if (scrollController.offset > 100) {
+      if (showTitle) return;
       setState(() {
-        _showTitle = true;
+        showTitle = true;
       });
     } else {
       setState(() {
-        _showTitle = false;
+        showTitle = false;
       });
     }
   }
@@ -80,12 +94,12 @@ class _InterestsScreenState extends State<InterestsScreen> {
   @override
   void initState() {
     super.initState();
-    _scrollController.addListener(_onScroll);
+    scrollController.addListener(_onScroll);
   }
 
   @override
   void dispose() {
-    _scrollController.dispose();
+    scrollController.dispose();
     super.dispose();
   }
 
@@ -136,24 +150,23 @@ class _InterestsScreenState extends State<InterestsScreen> {
             Gaps.v20,
             Expanded(
               child: SingleChildScrollView(
-                controller: _scrollController,
+                controller: scrollController,
                 child: Padding(
                   padding: const EdgeInsets.only(
                     left: Sizes.size24,
                     right: Sizes.size24,
                     bottom: Sizes.size16,
                   ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                  child: Wrap(
+                    runSpacing: 15,
+                    spacing: 15,
                     children: [
-                      Wrap(
-                        runSpacing: 15,
-                        spacing: 15,
-                        children: [
-                          for (var interest in interests)
-                            InterestsButton(interest: interest)
-                        ],
-                      )
+                      for (var interest in interests)
+                        InterestsButton(
+                          interest: interest,
+                          onSelected: _handleSelection,
+                          selectionComplete: _selectionComplete,
+                        ),
                     ],
                   ),
                 ),
@@ -167,7 +180,9 @@ class _InterestsScreenState extends State<InterestsScreen> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text("asd"),
+                  _selectionComplete
+                      ? const Text('Great work')
+                      : Text('$_selectedCount selected of 3'),
                   GestureDetector(
                     onTap: () => _onMoveInterestsScreenPartTwo(context),
                     child: Container(

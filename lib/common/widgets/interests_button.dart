@@ -2,9 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:nomad_flutter_twitter/constants/sizes.dart';
 
 class InterestsButton extends StatefulWidget {
+  final Function(bool) onSelected;
+  final bool selectionComplete;
   const InterestsButton({
     Key? key,
     required this.interest,
+    required this.onSelected,
+    required this.selectionComplete,
   }) : super(key: key);
 
   final String interest;
@@ -15,11 +19,12 @@ class InterestsButton extends StatefulWidget {
 
 class _InterestsButtonState extends State<InterestsButton> {
   bool _isSelected = false;
-
   void _onTap() {
+    if (widget.selectionComplete && !_isSelected) return;
     setState(() {
       _isSelected = !_isSelected;
     });
+    widget.onSelected(_isSelected);
   }
 
   @override
