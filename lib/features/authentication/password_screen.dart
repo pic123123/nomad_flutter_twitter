@@ -46,7 +46,8 @@ class _PasswordScreenState extends State<PasswordScreen> {
   /// 비밀번호 유효성 검사
   bool _isPasswordValid() {
     return _passwordController.text.isNotEmpty &&
-        _passwordController.text.length > 8;
+        _passwordController.text.length > 8 &&
+        _passwordController.text.length < 21;
   }
 
   @override

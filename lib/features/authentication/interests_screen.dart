@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:nomad_flutter_twitter/common/widgets/form_button.dart';
 import 'package:nomad_flutter_twitter/common/widgets/interests_button.dart';
 import 'package:nomad_flutter_twitter/constants/gaps.dart';
 import 'package:nomad_flutter_twitter/constants/sizes.dart';
+import 'package:nomad_flutter_twitter/features/authentication/interests_screen_part_two.dart';
 
 const interests = [
   "Daily Life",
@@ -87,8 +89,14 @@ class _InterestsScreenState extends State<InterestsScreen> {
     }
   }
 
-  void _onMoveInterestsScreenPartTwo(context) {
-    print("111");
+  void _onMoveInterestsScreenPartTwoScreen(context) {
+    if (!_selectionComplete) return;
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const InterestsScreenPartTwoScreen(),
+      ),
+    );
   }
 
   @override
@@ -182,24 +190,27 @@ class _InterestsScreenState extends State<InterestsScreen> {
                   _selectionComplete
                       ? const Text('Great work')
                       : Text('$_selectedCount selected of 3'),
-                  GestureDetector(
-                    onTap: () => _onMoveInterestsScreenPartTwo(context),
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                        vertical: Sizes.size16,
-                        horizontal: Sizes.size16,
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.only(
+                        left: Sizes.size96,
                       ),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(100),
-                        color: Colors.black45,
-                      ),
-                      child: const Text(
-                        'Next',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.w500,
-                          fontSize: Sizes.size16,
+                      child: GestureDetector(
+                        onTap: () =>
+                            _onMoveInterestsScreenPartTwoScreen(context),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: const BorderRadius.all(
+                              Radius.circular(
+                                Sizes.size40,
+                              ),
+                            ),
+                            color: Theme.of(context).primaryColor,
+                          ),
+                          child: FormButton(
+                            text: "Next",
+                            disabled: !_selectionComplete,
+                          ),
                         ),
                       ),
                     ),
