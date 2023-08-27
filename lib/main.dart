@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:nomad_flutter_twitter/features/authentication/initial_screen.dart';
+import 'package:nomad_flutter_twitter/features/main_navigation/main_navigation_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -17,10 +17,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        title: 'Twitter Clone',
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-        ),
-        home: const InitialScreen());
+      title: 'Twitter Clone',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: const MainNavigationScreen(),
+      // home: const InitialScreen(),
+    );
   }
 }
