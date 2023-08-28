@@ -78,21 +78,49 @@ class _PostScreenState extends State<PostScreen> {
                     Row(
                       children: [
                         CircleAvatar(
-                            backgroundImage:
-                                NetworkImage(Posts[index].profileImg)),
+                          backgroundImage:
+                              NetworkImage(Posts[index].profileImg),
+                        ),
                         Gaps.h10,
-                        Text(Posts[index].name),
+                        Column(
+                          //Column은 기본적인 정렬방식이 세로축 중앙이다.
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                Text(
+                                  Posts[index].name,
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                Gaps.h10,
+                                FaIcon(
+                                  FontAwesomeIcons.solidCircleCheck,
+                                  size: Sizes.size20,
+                                  color: Colors.blue[400],
+                                ),
+                              ],
+                            ),
+                            Gaps.v10,
+                            Text(Posts[index].content),
+                          ],
+                        ),
+
+                        const Spacer(), // This will take up all remaining space in the row
+                        Gaps.h10,
                         const Text(
                           "2h",
                           style: TextStyle(
                             fontWeight: FontWeight.w300,
                           ),
                         ),
-                        const FaIcon(FontAwesomeIcons.burger),
+                        Gaps.h10,
+                        const FaIcon(FontAwesomeIcons.ellipsis),
+                        Gaps.h10,
                       ],
                     ),
                     Gaps.v10,
-                    Text(Posts[index].content),
                     if (Posts[index].img.isNotEmpty)
                       AspectRatio(
                         aspectRatio: 2 / 1,
@@ -132,12 +160,18 @@ class _PostScreenState extends State<PostScreen> {
                         )
                       ],
                     ),
-                    Gaps.v5,
+                    Gaps.v10,
                     Row(
                       children: const [
-                        Text("8 replies"),
+                        Text(
+                          "8 replies",
+                          style: TextStyle(fontWeight: FontWeight.w200),
+                        ),
                         Text("."),
-                        Text("74 likes")
+                        Text(
+                          "74 likes",
+                          style: TextStyle(fontWeight: FontWeight.w200),
+                        )
                       ],
                     ),
                     Gaps.v5,
