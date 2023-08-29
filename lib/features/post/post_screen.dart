@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:nomad_flutter_twitter/constants/gaps.dart';
 import 'package:nomad_flutter_twitter/constants/sizes.dart';
+import 'package:nomad_flutter_twitter/features/post/post_bottom_sheet.dart';
 
 class Post {
   final int userId;
@@ -60,6 +61,19 @@ class PostScreen extends StatefulWidget {
 
 //ListView는 각 항목의 높이가 다를 때 유용하며, GridView는 모든 항목이 동일한 크기를 가질 때 잘 작동합니다.
 class _PostScreenState extends State<PostScreen> {
+  ///comments 아이콘 누르면 실행되는 함수
+  void _onCommentsTap(BuildContext context) async {
+    ///밑에서부터 올라오는 모달창 (모달밖은 저절로 회색으로 흐려짐)
+    await showModalBottomSheet(
+      context: context,
+
+      /// bottom sheet의 사이즈를 바꿀 수 있게 해줌, (listView를 사용할거면 true)
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (context) => const PostBottomSheet(),
+    );
+  }
+
   final logoImage = 'assets/images/twitter_logo.png';
 
   @override
@@ -103,7 +117,9 @@ class _PostScreenState extends State<PostScreen> {
                               ],
                             ),
                             Gaps.v10,
-                            Text(Posts[index].content),
+                            Text(
+                              Posts[index].content,
+                            ),
                           ],
                         ),
 
@@ -116,7 +132,13 @@ class _PostScreenState extends State<PostScreen> {
                           ),
                         ),
                         Gaps.h10,
-                        const FaIcon(FontAwesomeIcons.ellipsis),
+                        GestureDetector(
+                          onTap: () => _onCommentsTap(context),
+                          child: const FaIcon(
+                            FontAwesomeIcons.ellipsis,
+                          ),
+                        ),
+
                         Gaps.h10,
                       ],
                     ),
