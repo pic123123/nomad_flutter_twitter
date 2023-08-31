@@ -37,6 +37,18 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
     );
   }
 
+  void _onMovePostScreen(BuildContext context) async {
+    ///밑에서부터 올라오는 모달창 (모달밖은 저절로 회색으로 흐려짐)
+    await showModalBottomSheet(
+      context: context,
+
+      /// bottom sheet의 사이즈를 바꿀 수 있게 해줌, (listView를 사용할거면 true)
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (context) => const PostScreen(),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -102,7 +114,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
               isSelected: _selectedIndex == 2,
               icon: FontAwesomeIcons.penToSquare,
               selectedIcon: FontAwesomeIcons.solidPenToSquare,
-              onTap: () => _onTap(2),
+              onTap: () => _onMovePostScreen(context),
               selectedIndex: _selectedIndex,
             ),
             // GestureDetector(
