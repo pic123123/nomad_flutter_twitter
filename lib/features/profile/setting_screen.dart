@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:nomad_flutter_twitter/features/profile/privacy_screen.dart';
 
 class SettingScreen extends StatefulWidget {
   const SettingScreen({super.key});
@@ -9,6 +10,15 @@ class SettingScreen extends StatefulWidget {
 }
 
 class _SettingScreenState extends State<SettingScreen> {
+  void _onMovePrivacy(context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const PrivacyScreen(),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -52,7 +62,7 @@ class _SettingScreenState extends State<SettingScreen> {
               color: Colors.black,
             ),
             title: const Text('Privacy'),
-            onTap: () => {/* Do something */},
+            onTap: () => _onMovePrivacy(context),
           ),
           ListTile(
             leading: const FaIcon(
