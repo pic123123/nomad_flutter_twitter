@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:nomad_flutter_twitter/common/widgets/form_button.dart';
 import 'package:nomad_flutter_twitter/constants/gaps.dart';
 import 'package:nomad_flutter_twitter/constants/sizes.dart';
+import 'package:nomad_flutter_twitter/features/post/camera_bottom_sheet.dart';
 
 class PostScreen extends StatefulWidget {
   const PostScreen({super.key});
@@ -18,6 +20,17 @@ class _PostScreenState extends State<PostScreen> {
 
   void _onSave() {
     print("123");
+  }
+
+  void _onMoveCameraScreen(BuildContext context) async {
+    await showModalBottomSheet(
+      context: context,
+
+      /// bottom sheet의 사이즈를 바꿀 수 있게 해줌, (listView를 사용할거면 true)
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (context) => const CameraBottomSheet(),
+    );
   }
 
   @override
@@ -107,6 +120,13 @@ class _PostScreenState extends State<PostScreen> {
                   contentPadding: const EdgeInsets.symmetric(
                     vertical: Sizes.size10,
                     horizontal: Sizes.size10,
+                  ),
+                  prefixIcon: IconButton(
+                    icon: const FaIcon(
+                      FontAwesomeIcons.paperclip,
+                      size: Sizes.size20,
+                    ),
+                    onPressed: () => _onMoveCameraScreen(context),
                   ),
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(Sizes.size4),
