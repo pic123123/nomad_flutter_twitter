@@ -1,5 +1,9 @@
+import 'dart:html';
+
 import 'package:flutter/material.dart';
 import 'package:nomad_flutter_twitter/constants/sizes.dart';
+import 'package:camera/camera.dart';
+import 'package:image_picker/image_picker.dart';
 
 class CameraBottomSheet extends StatefulWidget {
   const CameraBottomSheet({Key? key}) : super(key: key);
@@ -9,9 +13,30 @@ class CameraBottomSheet extends StatefulWidget {
 }
 
 class _CameraBottomSheetState extends State<CameraBottomSheet> {
-  void _onCamera(BuildContext context) async {}
+  File? _imageFile;
 
-  void _onPhoto(BuildContext context) async {}
+  void _onCamera(BuildContext context) async {
+    final cameras = await availableCameras();
+    final firstCamera = cameras.first;
+
+    // Navigator.push(
+    //   context,
+    //   MaterialPageRoute(
+    //     builder: (context) => CameraScreen(camera: firstCamera),
+    //   ),
+    // );
+  }
+
+  void _onPhoto(BuildContext context) async {
+    final ImagePicker picker = ImagePicker();
+    final XFile? photo = await picker.pickImage(source: ImageSource.gallery);
+    if (photo != null) {
+      setState(() {
+        _imageFile = photo.path;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
