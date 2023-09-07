@@ -1,8 +1,5 @@
-import 'dart:html';
-
 import 'package:flutter/material.dart';
 import 'package:nomad_flutter_twitter/constants/sizes.dart';
-import 'package:camera/camera.dart';
 import 'package:image_picker/image_picker.dart';
 
 class CameraBottomSheet extends StatefulWidget {
@@ -13,26 +10,16 @@ class CameraBottomSheet extends StatefulWidget {
 }
 
 class _CameraBottomSheetState extends State<CameraBottomSheet> {
-  File? _imageFile;
+  XFile? _image; //이미지를 담을 변수 선언
+  final ImagePicker picker = ImagePicker(); //ImagePicker 초기화
 
-  void _onCamera(BuildContext context) async {
-    final cameras = await availableCameras();
-    final firstCamera = cameras.first;
-
-    // Navigator.push(
-    //   context,
-    //   MaterialPageRoute(
-    //     builder: (context) => CameraScreen(camera: firstCamera),
-    //   ),
-    // );
-  }
-
-  void _onPhoto(BuildContext context) async {
-    final ImagePicker picker = ImagePicker();
-    final XFile? photo = await picker.pickImage(source: ImageSource.gallery);
-    if (photo != null) {
+  //이미지를 가져오는 함수
+  Future getImage(ImageSource imageSource) async {
+    //pickedFile에 ImagePicker로 가져온 이미지가 담긴다.
+    final XFile? pickedFile = await picker.pickImage(source: imageSource);
+    if (pickedFile != null) {
       setState(() {
-        _imageFile = photo.path;
+        _image = XFile(pickedFile.path); //가져온 이미지를 _image에 저장
       });
     }
   }
@@ -59,13 +46,13 @@ class _CameraBottomSheetState extends State<CameraBottomSheet> {
               ListTile(
                 leading: const Icon(Icons.camera_alt_outlined),
                 title: const Text('사진 촬영하기'),
-                onTap: () => _onCamera(context),
+                onTap: () => getImage(ImageSource.camera),
               ),
               const Divider(color: Colors.black26, thickness: 1),
               ListTile(
                 leading: const Icon(Icons.photo_size_select_actual_outlined),
                 title: const Text('사진 선택하기'),
-                onTap: () => _onPhoto(context),
+                onTap: () => getImage(ImageSource.gallery),
               ),
             ],
           ),
