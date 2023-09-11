@@ -1,28 +1,109 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:nomad_flutter_twitter/features/main_navigation/main_navigation_screen.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:nomad_flutter_twitter/constants/sizes.dart';
+import 'package:nomad_flutter_twitter/router.dart';
 
-void main() {
-  runApp(const MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
 
-  ///상단의 시계,와이파이,배터리 표시바 색상 고정
-  ///#TODO 하얀색 배경일때는 dart색상이 보이는데, 만일 까만색 배경일때가 있다면 조건문으로 light도 넣어줘야함
-  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
+  await SystemChrome.setPreferredOrientations(
+    [
+      DeviceOrientation.portraitUp,
+    ],
+  );
+
+  runApp(
+    const MyApp(),
+  );
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Twitter Clone',
+    // S.load(const Locale("en"));
+    return MaterialApp.router(
+      routerConfig: router,
+      debugShowCheckedModeBanner: false,
+      title: 'TikTok Clone',
+      locale: const Locale('ko', 'KR'), // 한국어로 전역 locale 설정
+      supportedLocales: const [
+        Locale('ko', 'KR'), // 여기서 추가적으로 지원할 언어와 지역을 추가할 수 있습니다.
+        // 우선순위에 따라 여러 언어를 추가해줄 수 있습니다.
+      ],
+      localizationsDelegates: const [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+
+      themeMode: ThemeMode.system,
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        useMaterial3: true,
+        textTheme: Typography.blackMountainView,
+        brightness: Brightness.light,
+        scaffoldBackgroundColor: Colors.white,
+        primaryColor: const Color(0xFFE9435A),
+        textSelectionTheme: const TextSelectionThemeData(
+          cursorColor: Color(0xFFE9435A),
+        ),
+        splashColor: Colors.transparent,
+        appBarTheme: const AppBarTheme(
+          foregroundColor: Colors.black,
+          backgroundColor: Colors.white,
+          surfaceTintColor: Colors.white,
+          elevation: 0,
+          titleTextStyle: TextStyle(
+            color: Colors.black,
+            fontSize: Sizes.size16 + Sizes.size2,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+        tabBarTheme: TabBarTheme(
+          labelColor: Colors.black,
+          unselectedLabelColor: Colors.grey.shade500,
+          indicatorColor: Colors.black,
+        ),
+        listTileTheme: const ListTileThemeData(
+          iconColor: Colors.black,
+        ),
       ),
-      home: const MainNavigationScreen(),
-      // home: const InitialScreen(),
+      darkTheme: ThemeData(
+        useMaterial3: true,
+        tabBarTheme: TabBarTheme(
+          indicatorColor: Colors.white,
+          labelColor: Colors.white,
+          unselectedLabelColor: Colors.grey.shade700,
+        ),
+        textSelectionTheme: const TextSelectionThemeData(
+          cursorColor: Color(0xFFE9435A),
+        ),
+        textTheme: Typography.whiteMountainView,
+        brightness: Brightness.dark,
+        scaffoldBackgroundColor: Colors.black,
+        appBarTheme: AppBarTheme(
+          surfaceTintColor: Colors.grey.shade900,
+          backgroundColor: Colors.grey.shade900,
+          foregroundColor: Colors.white,
+          titleTextStyle: const TextStyle(
+            color: Colors.white,
+            fontSize: Sizes.size16 + Sizes.size2,
+            fontWeight: FontWeight.w600,
+          ),
+          actionsIconTheme: IconThemeData(
+            color: Colors.grey.shade100,
+          ),
+          iconTheme: IconThemeData(
+            color: Colors.grey.shade100,
+          ),
+        ),
+        bottomAppBarTheme: BottomAppBarTheme(
+          color: Colors.grey.shade900,
+        ),
+        primaryColor: const Color(0xFFE9435A),
+      ),
     );
   }
 }

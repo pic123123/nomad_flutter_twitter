@@ -21,18 +21,18 @@ packages:
     dependency: "direct main"
     description:
       name: camera
-      sha256: "3ad71371b8168a4c8012c0b40a53c05afc75d46cc688b0f37b4611a841d47b25"
+      sha256: f63f2687fb1795c36f7c57b18a03071880eabb0fd8b5291b0fcd3fb979cb0fb1
       url: "https://pub.dev"
     source: hosted
-    version: "0.9.8+1"
+    version: "0.10.5+4"
   camera_android:
     dependency: transitive
     description:
       name: camera_android
-      sha256: "665d62c1f334722c7519ca5d3b94ad68ecaa801691870602da5638a42c1fff67"
+      sha256: ed4f645848074166fc3b8e20350f83ca07e09a2becc1e185040ee561f955d4df
       url: "https://pub.dev"
     source: hosted
-    version: "0.9.8+3"
+    version: "0.10.8+8"
   camera_avfoundation:
     dependency: transitive
     description:
@@ -53,10 +53,10 @@ packages:
     dependency: transitive
     description:
       name: camera_web
-      sha256: "18cdbee5441e9a6fb129fdd9b68a06d1b8c5236932ba97d5faeaefe80db2e5bd"
+      sha256: "012c82efeb6b69626f1cf7a37c5277c1032428bcae98c7ab6401ff5e91eca628"
       url: "https://pub.dev"
     source: hosted
-    version: "0.2.1+6"
+    version: "0.3.2+2"
   characters:
     dependency: transitive
     description:
@@ -159,7 +159,7 @@ packages:
     source: hosted
     version: "2.0.3"
   flutter_localizations:
-    dependency: transitive
+    dependency: "direct main"
     description: flutter
     source: sdk
     version: "0.0.0"
@@ -171,6 +171,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.16"
+  flutter_riverpod:
+    dependency: "direct main"
+    description:
+      name: flutter_riverpod
+      sha256: b6cb0041c6c11cefb2dcb97ef436eba43c6d41287ac6d8ca93e02a497f53a4f3
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.3.7"
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -189,6 +197,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "10.4.0"
+  go_router:
+    dependency: "direct main"
+    description:
+      name: go_router
+      sha256: b789ead597d3e9cd5d114cdb7af12440712da5599743f9a2358c43aa3f5e9d3e
+      url: "https://pub.dev"
+    source: hosted
+    version: "6.0.2"
   http:
     dependency: transitive
     description:
@@ -293,6 +309,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.1"
+  logging:
+    dependency: transitive
+    description:
+      name: logging
+      sha256: "623a88c9594aa774443aa3eb2d41807a48486b5613e67599fb4c41c0ad47c340"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.2.0"
   matcher:
     dependency: transitive
     description:
@@ -349,6 +373,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.2.1"
+  riverpod:
+    dependency: transitive
+    description:
+      name: riverpod
+      sha256: b0657b5b30c81a3184bdaab353045f0a403ebd60bb381591a8b7ad77dcade793
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.3.7"
   sky_engine:
     dependency: transitive
     description: flutter
@@ -370,6 +402,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.11.0"
+  state_notifier:
+    dependency: transitive
+    description:
+      name: state_notifier
+      sha256: b8677376aa54f2d7c58280d5a007f9e8774f1968d1fb1c096adcb4792fba29bb
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.0"
   stream_channel:
     dependency: transitive
     description:

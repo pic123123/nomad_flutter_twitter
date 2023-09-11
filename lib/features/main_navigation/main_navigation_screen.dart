@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:go_router/go_router.dart';
 import 'package:nomad_flutter_twitter/constants/sizes.dart';
 import 'package:nomad_flutter_twitter/features/activity/activity_screen.dart';
 import 'package:nomad_flutter_twitter/features/home/home_screen.dart';
@@ -9,17 +10,33 @@ import 'package:nomad_flutter_twitter/features/profile/profile_screen.dart';
 import 'package:nomad_flutter_twitter/features/search/search_screen.dart';
 
 class MainNavigationScreen extends StatefulWidget {
-  const MainNavigationScreen({super.key});
+  static const String routeName = "mainNavigation";
+
+  final String tab;
+
+  const MainNavigationScreen({
+    super.key,
+    required this.tab,
+  });
 
   @override
   State<MainNavigationScreen> createState() => _MainNavigationScreenState();
 }
 
 class _MainNavigationScreenState extends State<MainNavigationScreen> {
+  final List<String> _tabs = [
+    "home",
+    "search",
+    "post",
+    "activity",
+    "profile",
+  ];
+
   ///시작 페이지
   late int _selectedIndex = 0;
 
   void _onTap(int index) {
+    context.go("/${_tabs[index]}");
     setState(() {
       _selectedIndex = index;
     });
@@ -51,6 +68,9 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // final router = GoRouter.of(context);
+    // _selectedIndex = _tabs.indexOf(router.location);
+
     return Scaffold(
       /// 키보드가 나타날때 기본적으로 Scaffold가 body를 조절해서 키보드가 화면을 가리지 않도로 한다.
       resizeToAvoidBottomInset: false,
@@ -88,55 +108,65 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
       ),
 
       ///custom navigation
-      bottomNavigationBar: BottomAppBar(
-        color: Colors.white,
-        child: Padding(
-          padding: const EdgeInsets.all(Sizes.size12),
-          child:
-              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-            ///Column은 기본적으로 세로축으로 최대한 확장하려고 한다.
-            NavTab(
-              isSelected: _selectedIndex == 0,
-              icon: FontAwesomeIcons.house,
-              selectedIcon: FontAwesomeIcons.house,
-              onTap: () => _onTap(0),
-              selectedIndex: _selectedIndex,
-            ),
-            NavTab(
-              isSelected: _selectedIndex == 1,
-              icon: FontAwesomeIcons.magnifyingGlass,
-              selectedIcon: FontAwesomeIcons.magnifyingGlass,
-              onTap: () => _onTap(1),
-              selectedIndex: _selectedIndex,
-            ),
-            // Gaps.h24,
-            NavTab(
-              isSelected: _selectedIndex == 2,
-              icon: FontAwesomeIcons.penToSquare,
-              selectedIcon: FontAwesomeIcons.solidPenToSquare,
-              onTap: () => _onMovePostScreen(context),
-              selectedIndex: _selectedIndex,
-            ),
-            // GestureDetector(
-            //   onTap: _onPostVideoButtonTap,
-            //   child: PostVideoButton(inverted: _selectedIndex != 0),
-            // ),
-            // Gaps.h24,
-            NavTab(
-              isSelected: _selectedIndex == 3,
-              icon: FontAwesomeIcons.heart,
-              selectedIcon: FontAwesomeIcons.solidHeart,
-              onTap: () => _onTap(3),
-              selectedIndex: _selectedIndex,
-            ),
-            NavTab(
-              isSelected: _selectedIndex == 4,
-              icon: FontAwesomeIcons.user,
-              selectedIcon: FontAwesomeIcons.solidUser,
-              onTap: () => _onTap(4),
-              selectedIndex: _selectedIndex,
-            ),
-          ]),
+      bottomNavigationBar: SafeArea(
+        child: BottomAppBar(
+          color: Colors.white,
+          child: Padding(
+            padding: const EdgeInsets.all(Sizes.size12),
+            child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  ///Column은 기본적으로 세로축으로 최대한 확장하려고 한다.
+
+                  NavTab(
+                    //  text: "Home",
+                    isSelected: _selectedIndex == 0,
+                    icon: FontAwesomeIcons.house,
+                    selectedIcon: FontAwesomeIcons.house,
+                    onTap: () => _onTap(0),
+                    selectedIndex: _selectedIndex,
+                  ),
+
+                  NavTab(
+                    //   text: "Search",
+                    isSelected: _selectedIndex == 1,
+                    icon: FontAwesomeIcons.magnifyingGlass,
+                    selectedIcon: FontAwesomeIcons.magnifyingGlass,
+                    onTap: () => _onTap(1),
+                    selectedIndex: _selectedIndex,
+                  ),
+                  // Gaps.h24,
+                  NavTab(
+                    // text: "Post",
+                    isSelected: _selectedIndex == 2,
+                    icon: FontAwesomeIcons.penToSquare,
+                    selectedIcon: FontAwesomeIcons.solidPenToSquare,
+                    onTap: () => _onMovePostScreen(context),
+                    selectedIndex: _selectedIndex,
+                  ),
+                  // GestureDetector(
+                  //   onTap: _onPostVideoButtonTap,
+                  //   child: PostVideoButton(inverted: _selectedIndex != 0),
+                  // ),
+                  // Gaps.h24,
+                  NavTab(
+                    //  text: "Actibity",
+                    isSelected: _selectedIndex == 3,
+                    icon: FontAwesomeIcons.heart,
+                    selectedIcon: FontAwesomeIcons.solidHeart,
+                    onTap: () => _onTap(3),
+                    selectedIndex: _selectedIndex,
+                  ),
+                  NavTab(
+                    // text: "Profile",
+                    isSelected: _selectedIndex == 4,
+                    icon: FontAwesomeIcons.user,
+                    selectedIcon: FontAwesomeIcons.solidUser,
+                    onTap: () => _onTap(4),
+                    selectedIndex: _selectedIndex,
+                  ),
+                ]),
+          ),
         ),
       ),
     );

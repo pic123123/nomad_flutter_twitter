@@ -3,6 +3,7 @@ import 'package:nomad_flutter_twitter/common/widgets/form_button.dart';
 import 'package:nomad_flutter_twitter/common/widgets/interests_button.dart';
 import 'package:nomad_flutter_twitter/constants/gaps.dart';
 import 'package:nomad_flutter_twitter/constants/sizes.dart';
+import 'package:nomad_flutter_twitter/features/main_navigation/main_navigation_screen.dart';
 
 const musics = [
   'Rock',
@@ -76,7 +77,14 @@ class _InterestsScreenPartTwoScreenState
   }
 
   void _onMoveTest(context) {
-    print("fasfasf");
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const MainNavigationScreen(
+          tab: 'home',
+        ),
+      ),
+    );
   }
 
   @override
@@ -119,9 +127,8 @@ class _InterestsScreenPartTwoScreenState
               for (var item in chunks[index])
                 Padding(
                     padding: EdgeInsets.only(
-                        bottom: index < chunks[index].length - 1
-                            ? 10.0
-                            : 0), // 버튼 사이 간격 설정
+                      bottom: index < chunks[index].length - 1 ? 5.0 : 0,
+                    ), // 버튼 사이 간격 설정
                     child: InterestsButton(
                       interest: item,
                       onSelected: _handleSelection,
@@ -153,7 +160,7 @@ class _InterestsScreenPartTwoScreenState
                       width: 30, // 원하는 너비로 설정
                       height: 30, // 원하는 높이로 설정
                     ),
-                    Gaps.v20,
+                    Gaps.v5,
                     const Text(
                       "What do you want to see on Twitter?",
                       style: TextStyle(
@@ -161,7 +168,7 @@ class _InterestsScreenPartTwoScreenState
                         fontWeight: FontWeight.w800,
                       ),
                     ),
-                    Gaps.v20,
+                    Gaps.v5,
                     const Text(
                       "interests are used to personalize your experience and will be visible on your profile",
                       style: TextStyle(
@@ -169,7 +176,7 @@ class _InterestsScreenPartTwoScreenState
                         fontWeight: FontWeight.w400,
                       ),
                     ),
-                    Gaps.v10,
+                    Gaps.v5,
                     const Divider(color: Colors.grey),
                   ],
                 ),

@@ -4,6 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 class NavTab extends StatelessWidget {
   const NavTab({
     super.key,
+    //equired this.text,
     required this.isSelected,
     required this.icon,
     required this.onTap,
@@ -11,6 +12,7 @@ class NavTab extends StatelessWidget {
     required this.selectedIndex,
   });
 
+  //final String text;
   final bool isSelected;
   final IconData icon;
   final Function onTap;
@@ -19,6 +21,8 @@ class NavTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // final isDark = isDarkMode(context);
+
     ///가능한만큼 확장시키는 widgets
     return Expanded(
       child: GestureDetector(
@@ -35,6 +39,15 @@ class NavTab extends StatelessWidget {
                   isSelected ? selectedIcon : icon,
                   color: Colors.black,
                 ),
+                // Gaps.v5,
+                // Text(
+                //   text,
+                //   style: TextStyle(
+                //     color: selectedIndex == 0 || false
+                //         ? Colors.white
+                //         : Colors.black,
+                //   ),
+                // )
               ],
             ),
           ),
