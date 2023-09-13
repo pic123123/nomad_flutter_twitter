@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:nomad_flutter_twitter/features/profile/privacy_config_view_model.dart';
+import 'package:provider/provider.dart';
 
 class PrivacyScreen extends StatefulWidget {
   const PrivacyScreen({super.key});
@@ -46,6 +48,13 @@ class _PrivacyScreenState extends State<PrivacyScreen> {
             ),
             title: const Text('Private profile'),
             onTap: () => {/* Do something */},
+          ),
+          SwitchListTile.adaptive(
+            value: context.watch<PrivacyConfigViewModel>().dark,
+            onChanged: (value) =>
+                context.read<PrivacyConfigViewModel>().setDark(value),
+            title: const Text("Dark Mode"),
+            subtitle: const Text("all black."),
           ),
           ListTile(
             leading: const FaIcon(

@@ -2,7 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:nomad_flutter_twitter/constants/sizes.dart';
+import 'package:nomad_flutter_twitter/features/profile/privacy_config_repository.dart';
+import 'package:nomad_flutter_twitter/features/profile/privacy_config_view_model.dart';
 import 'package:nomad_flutter_twitter/router.dart';
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -13,8 +17,18 @@ void main() async {
     ],
   );
 
+  final preferences = await SharedPreferences.getInstance();
+  final repository = PrivacyConfigRepository(preferences);
+
   runApp(
-    const MyApp(),
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (context) => PrivacyConfigViewModel(repository),
+        )
+      ],
+      child: const MyApp(),
+    ),
   );
 }
 
@@ -38,8 +52,10 @@ class MyApp extends StatelessWidget {
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
       ],
+      themeMode: context.watch<PrivacyConfigViewModel>().dark
+          ? ThemeMode.dark
+          : ThemeMode.light,
 
-      themeMode: ThemeMode.system,
       theme: ThemeData(
         useMaterial3: true,
         textTheme: Typography.blackMountainView,
