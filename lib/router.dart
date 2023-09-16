@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:nomad_flutter_twitter/features/authentication/initial_screen.dart';
 import 'package:nomad_flutter_twitter/features/main_navigation/main_navigation_screen.dart';
 import 'package:nomad_flutter_twitter/features/profile/privacy_screen.dart';
 import 'package:nomad_flutter_twitter/features/profile/setting_screen.dart';
@@ -9,8 +10,8 @@ final router = GoRouter(
     GoRoute(
       path: '/',
       pageBuilder: (context, state) => const MaterialPage<void>(
-        // child: InitialScreen(),
-        child: PrivacyScreen(),
+        child: InitialScreen(),
+        //child: PrivacyScreen(),
       ),
     ),
     GoRoute(

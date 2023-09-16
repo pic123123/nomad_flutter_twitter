@@ -99,15 +99,21 @@ class _InitialScreenState extends State<InitialScreen> {
         ),
       ),
       bottomNavigationBar: BottomAppBar(
-        //배경 색상
-        color: Colors.grey.shade50,
         elevation: 2,
+        color: Theme.of(context).bottomAppBarTheme.color,
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: Sizes.size32),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Text('Have an account already?'),
+              Text(
+                'Have an account already?',
+                style: TextStyle(
+                  ///main.dart에서 설정한 theme을 가져올 수 있음.
+                  color: Theme.of(context).appBarTheme.surfaceTintColor,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
               Gaps.h5,
               GestureDetector(
                 onTap: () => _onLoginTab(context),
@@ -115,8 +121,10 @@ class _InitialScreenState extends State<InitialScreen> {
                   'Log in',
                   style: TextStyle(
                     ///main.dart에서 설정한 theme을 가져올 수 있음.
-                    color: Theme.of(context).primaryColor,
+                    color: Theme.of(context).appBarTheme.surfaceTintColor,
                     fontWeight: FontWeight.w600,
+                    // backgroundColor:
+                    //     Theme.of(context).appBarTheme.surfaceTintColor,
                   ),
                 ),
               ),

@@ -1,15 +1,22 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:nomad_flutter_twitter/constants/sizes.dart';
 import 'package:nomad_flutter_twitter/features/profile/privacy_config_repository.dart';
 import 'package:nomad_flutter_twitter/features/profile/privacy_config_view_model.dart';
+import 'package:nomad_flutter_twitter/firebase_options.dart';
 import 'package:nomad_flutter_twitter/router.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+//initialize Firebase
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
 
   await SystemChrome.setPreferredOrientations(
     [
@@ -57,7 +64,7 @@ class MyApp extends StatelessWidget {
           : ThemeMode.light,
 
       theme: ThemeData(
-        useMaterial3: true,
+        //useMaterial3: true,
         textTheme: Typography.blackMountainView,
         brightness: Brightness.light,
         scaffoldBackgroundColor: Colors.white,
@@ -84,6 +91,9 @@ class MyApp extends StatelessWidget {
         ),
         listTileTheme: const ListTileThemeData(
           iconColor: Colors.black,
+        ),
+        bottomAppBarTheme: BottomAppBarTheme(
+          color: Colors.grey.shade900,
         ),
       ),
       darkTheme: ThemeData(
