@@ -50,7 +50,7 @@ options: DefaultFirebaseOptions.currentPlatform,
 8. firebase_core_platform_interface
    flutterfire configure
 
-9. flutter clean & flutter pub get & flutterfire configure
+9. flutter clean & flutter pub get & flutterfire configure & pod repo update
 
 ### Error
 
