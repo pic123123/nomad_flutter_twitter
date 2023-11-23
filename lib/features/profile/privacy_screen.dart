@@ -3,7 +3,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:nomad_flutter_twitter/features/profile/privacy_config_view_model.dart';
 import 'package:provider/provider.dart';
 
-//스테이징 삐꾸 커밋2
 class PrivacyScreen extends StatefulWidget {
   const PrivacyScreen({super.key});
 
