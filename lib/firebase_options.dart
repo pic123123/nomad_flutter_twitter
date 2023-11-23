@@ -4,7 +4,6 @@ import 'package:firebase_core/firebase_core.dart' show FirebaseOptions;
 import 'package:flutter/foundation.dart'
     show defaultTargetPlatform, kIsWeb, TargetPlatform;
 
-//스테이징 삐꾸 커밋 2
 //나는 스테이징 출신이고 리버트 할꺼야2222
 /// Default [FirebaseOptions] for use with your Firebase apps.
 ///
