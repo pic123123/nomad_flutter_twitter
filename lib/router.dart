@@ -5,6 +5,7 @@ import 'package:nomad_flutter_twitter/features/main_navigation/main_navigation_s
 import 'package:nomad_flutter_twitter/features/profile/privacy_screen.dart';
 import 'package:nomad_flutter_twitter/features/profile/setting_screen.dart';
 
+//
 final router = GoRouter(
   routes: [
     GoRoute(
