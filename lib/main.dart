@@ -10,6 +10,7 @@ import 'package:nomad_flutter_twitter/router.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+//나는야 이제 정상커밋 시작3
 //나는 스테이징 출신이고 리버트 할꺼야
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
